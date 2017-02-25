@@ -8,16 +8,22 @@ public class InfoModel {
     private String id;
     private String name;
     private String message;
+    private String phoneNumber;
 
-    public InfoModel(String id, String name, String message) {
+    public InfoModel() {
+    }
+
+    public InfoModel(String id, String name, String message, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.message = message;
+        this.phoneNumber = phoneNumber;
     }
 
-    public InfoModel(String name, String message) {
+    public InfoModel(String name, String message, String phoneNumber) {
         this.name = name;
         this.message = message;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getId() {
@@ -42,5 +48,13 @@ public class InfoModel {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
