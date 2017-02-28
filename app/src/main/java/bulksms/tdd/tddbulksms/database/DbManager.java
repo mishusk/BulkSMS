@@ -37,6 +37,7 @@ public class DbManager {
             DbHelper.COL_OPERATOR
     };
 
+    //-------------SET PHONE INFO-------------------
     public boolean setPhoneInfo(InfoModel mModel) {
         boolean isDuplicate = false;
 
@@ -74,11 +75,9 @@ public class DbManager {
 
     public boolean setSmsInfo(InfoModel mModel) {
         boolean isDuplicate = false;
-
         String[] columns = {
                 DbHelper.COL_PHN_NU
         };
-
         Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO,
                 columns, null, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
@@ -108,49 +107,12 @@ public class DbManager {
         return isDuplicate;
     }
 
-    //todo: status = 1 >> sms delivered
-    public ArrayList<InfoModel> getDeliveriedPhn() {
-        ArrayList<InfoModel> phones = new ArrayList<>();
-        Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_phn_info,
-                DbHelper.COL_STATUS + "='1'", null, null, null, DbHelper.COL_STATUS + " ASC");
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                InfoModel phoneInfo = new InfoModel();
-                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
-                phones.add(phoneInfo);
-            } while (cursor.moveToNext());
-        }
-        return phones;
-    }
-
-    //todo: status = 0 >> sms delivered
-    public ArrayList<InfoModel> getUndeliveredPhn() {
-        ArrayList<InfoModel> phones = new ArrayList<>();
-        Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_phn_info,
-                DbHelper.COL_STATUS + "='0'", null, null, null, DbHelper.COL_STATUS + " ASC");
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                InfoModel phoneInfo = new InfoModel();
-                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
-                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
-                phones.add(phoneInfo);
-            } while (cursor.moveToNext());
-        }
-        return phones;
-    }
-
-    public boolean cleanSmSinfoTable() {
-        return mDatabase.delete(DbHelper.TABLE_SMS_INFO, null, null) > 0;
-    }
 
 
+
+
+
+    //-------------GET PHONE INFO-------------------
     public ArrayList<InfoModel> getAllPhones() {
         ArrayList<InfoModel> phones = new ArrayList<>();
         Cursor cursor = mDatabase.query(DbHelper.TABLE_INFO, column_phn_info,
@@ -166,6 +128,92 @@ public class DbManager {
             } while (cursor.moveToNext());
         }
         return phones;
+    }
+
+    //todo: status = 1 >> sms delivered
+    public ArrayList<InfoModel> getDeliveredPhn() {
+        ArrayList<InfoModel> phones = new ArrayList<>();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_sms_info,
+                DbHelper.COL_STATUS + "=\"1\"", null, null, null, DbHelper.COL_STATUS + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                InfoModel phoneInfo = new InfoModel();
+                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
+                phones.add(phoneInfo);
+            } while (cursor.moveToNext());
+        }
+        return phones;
+    }
+
+    //todo: status = 0 >> sms not delivered
+    public ArrayList<InfoModel> getUndeliveredPhn() {
+        ArrayList<InfoModel> phones = new ArrayList<>();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_sms_info,
+                DbHelper.COL_STATUS + "=\"0\"", null, null, null, DbHelper.COL_STATUS + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                InfoModel phoneInfo = new InfoModel();
+                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
+                phones.add(phoneInfo);
+            } while (cursor.moveToNext());
+        }
+        return phones;
+    }
+
+
+
+
+
+    //------------------------GET INFO BY OPERATOR------------------------
+    public ArrayList<InfoModel> getPhnByOperatorPhoneInfo(String constantOperator) {
+        ArrayList<InfoModel> phones = new ArrayList<>();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_INFO, column_phn_info,
+                DbHelper.COL_STATUS + "=\"" + constantOperator + "\"", null, null, null, DbHelper.COL_STATUS + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                InfoModel phoneInfo = new InfoModel();
+                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
+                phones.add(phoneInfo);
+            } while (cursor.moveToNext());
+        }
+        return phones;
+    }
+
+    public ArrayList<InfoModel> getPhnByOperatorSmSinfo(String constantOperator) {
+        ArrayList<InfoModel> phones = new ArrayList<>();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_sms_info,
+                DbHelper.COL_STATUS + "=\"" + constantOperator + "\"", null, null, null, DbHelper.COL_STATUS + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                InfoModel phoneInfo = new InfoModel();
+                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
+                phones.add(phoneInfo);
+            } while (cursor.moveToNext());
+        }
+        return phones;
+    }
+
+
+
+    //----------------------------CLEAN SMS TABLE INFO--------------------------------------
+    public boolean cleanSmSinfoTable() {
+        return mDatabase.delete(DbHelper.TABLE_SMS_INFO, null, null) > 0;
     }
 
 
