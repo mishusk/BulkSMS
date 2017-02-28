@@ -108,10 +108,11 @@ public class DbManager {
         return isDuplicate;
     }
 
+    //todo: status = 1 >> sms delivered
     public ArrayList<InfoModel> getDeliveriedPhn() {
         ArrayList<InfoModel> phones = new ArrayList<>();
         Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_phn_info,
-                null, null, null, null, DbHelper.COL_STATUS +" ASC");
+                DbHelper.COL_STATUS + "='1'", null, null, null, DbHelper.COL_STATUS + " ASC");
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 InfoModel phoneInfo = new InfoModel();
@@ -126,7 +127,28 @@ public class DbManager {
         return phones;
     }
 
+    //todo: status = 0 >> sms delivered
+    public ArrayList<InfoModel> getUndeliveredPhn() {
+        ArrayList<InfoModel> phones = new ArrayList<>();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_SMS_INFO, column_phn_info,
+                DbHelper.COL_STATUS + "='0'", null, null, null, DbHelper.COL_STATUS + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                InfoModel phoneInfo = new InfoModel();
+                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_PHN_NU)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_OPERATOR)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_SMS)));
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.COL_STATUS)));
+                phones.add(phoneInfo);
+            } while (cursor.moveToNext());
+        }
+        return phones;
+    }
 
+    public boolean cleanSmSinfoTable() {
+        return mDatabase.delete(DbHelper.TABLE_SMS_INFO, null, null) > 0;
+    }
 
 
     public ArrayList<InfoModel> getAllPhones() {
