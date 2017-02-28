@@ -14,7 +14,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public static final String TABLE_INFO = "tbl_phn_info";
-    public static final String TABLE_STATUS = "tbl_status";
+    public static final String TABLE_SMS_INFO = "tbl_sms_info";
 
 
     public static final String COL_ID = "id";
@@ -31,7 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + COL_OPERATOR + " text "
             + " ); ";
 
-    private final String CREATE_STATUS_DB = "create table if not exists " + TABLE_STATUS + " ( "
+    private final String CREATE_STATUS_DB = "create table if not exists " + TABLE_SMS_INFO + " ( "
             + COL_ID + " integer primary key autoincrement, "
             + COL_PHN_NU + " text, "
             + COL_OPERATOR + " text, "

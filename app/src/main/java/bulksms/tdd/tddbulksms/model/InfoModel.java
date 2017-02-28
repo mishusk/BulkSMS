@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by ThirdEye-lll on 2/26/2017.
  */
 
-public class InfoModel implements Parcelable{
+public class InfoModel implements Parcelable {
     private int id;
     private String phoneNumber;
     private String operatorName;
@@ -22,7 +22,7 @@ public class InfoModel implements Parcelable{
         operatorName = in.readString();
     }
 
-    public InfoModel(){
+    public InfoModel() {
 
     }
 
@@ -31,10 +31,10 @@ public class InfoModel implements Parcelable{
         this.operatorName = operatorName;
     }
 
-    public InfoModel(String phoneNumber, String status, String message){
+    public InfoModel(String phoneNumber, String message, String status) {
         this.phoneNumber = phoneNumber;
-        this.status = status;
         this.message = message;
+        this.status = status;
     }
 
     public String getOperatorName() {
