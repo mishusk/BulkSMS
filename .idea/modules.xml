@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BulkSMS.iml" filepath="$PROJECT_DIR$/BulkSMS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TDDBulkSMS.iml" filepath="$PROJECT_DIR$/TDDBulkSMS.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

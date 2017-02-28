@@ -30,7 +30,7 @@ public class SMSThread extends Thread {
 
         try {
 //            while (!Thread.currentThread().isInterrupted()) {
-            while (flag) {
+//            while (flag) {
                 // ...
                 for (int i = 0; i < userArrayList.size(); i++) {
                     // Pause for 4 seconds
@@ -45,7 +45,7 @@ public class SMSThread extends Thread {
                     if (i==userArrayList.size())
                         flag = false;
                 }
-            }
+//            }
         } catch (Exception e){
             e.printStackTrace();
         }

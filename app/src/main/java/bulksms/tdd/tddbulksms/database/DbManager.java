@@ -1,8 +1,12 @@
 package bulksms.tdd.tddbulksms.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+
+import java.util.ArrayList;
 
 import bulksms.tdd.tddbulksms.model.InfoModel;
 
@@ -12,52 +16,81 @@ import bulksms.tdd.tddbulksms.model.InfoModel;
 
 public class DbManager {
 
-    SQLiteDatabase sql;
+    SQLiteDatabase mDatabase;
     DbHelper dbHelper;
 
-    public DbManager(DbHelper helper) {
-        this.dbHelper = helper;
+    public DbManager(Context context) {
+        dbHelper = new DbHelper(context.getApplicationContext());
+        mDatabase = dbHelper.getReadableDatabase();
     }
 
+    private String[] column_sms_info = {
+            DbHelper.COL_ID,
+            DbHelper.COL_PHN_NU,
+            DbHelper.COL_OPERATOR,
+            DbHelper.COL_SMS,
+            DbHelper.COL_STATUS
+    };
 
-    public void addDataToTable(InfoModel mModel){
+    private String[] column_phn_info = {
+            DbHelper.COL_ID,
+            DbHelper.COL_PHN_NU,
+            DbHelper.COL_OPERATOR
+    };
 
-        sql =  dbHelper.getWritableDatabase();
+    public boolean setPhoneInfo(InfoModel mModel){
+        boolean isDuplicate = false;
 
-        ContentValues cv = new ContentValues();
+        String[] columns = {
+                DbHelper.COL_PHN_NU
+        };
 
-        cv.put(DbHelper.NAME,mModel.getName());
-        cv.put(DbHelper.PHONE,mModel.getMessage());
-
-        sql.insert(DbHelper.TABLE_NAME,null,cv);
-        sql.close();
-
-    }
-
-
-
-
-    public String[] getTableData(){
-
-        sql = dbHelper.getReadableDatabase();
-        String query = "SELECT * FROM "+DbHelper.TABLE_NAME;
-        Cursor c = sql.rawQuery(query , null);
-
-        String[] received_data = new String[c.getCount()];
-
-        c.moveToFirst();
-
-        if (c.moveToFirst()){
-            int counter = 0;
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_INFO,
+                columns, null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()){
             do {
-                received_data[counter] = c.getString(c.getColumnIndex(DbHelper.NAME+""))+"\n"+
-                        c.getString(c.getColumnIndex(DbHelper.PHONE))+"\n";
-                counter = counter+1;
-            }while (c.moveToNext());
+                String phoneNum;
+                phoneNum = cursor.getString(cursor.getColumnIndex(DbHelper.COL_PHN_NU));
+                if (phoneNum.equals(mModel.getPhoneNumber())){
+                    isDuplicate = true;
+                    break;
+                }
+            }
+            while (cursor.moveToNext());
         }
 
-        return received_data;
+        if (!isDuplicate){
+            String sql = "INSERT INTO "+(DbHelper.TABLE_INFO + " VALUES (?,?,?);");
+            SQLiteStatement statement = mDatabase.compileStatement(sql);
+            mDatabase.beginTransaction();
+            statement.clearBindings();
+            statement.bindString(2, mModel.getPhoneNumber());
+            statement.bindString(3, mModel.getOperatorName());
 
+            statement.execute();
+
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+        }
+        return isDuplicate;
+    }
+
+    public ArrayList<InfoModel> getAllPhones() {
+        ArrayList<InfoModel> phones = new ArrayList<>();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_INFO, column_phn_info,
+                null, null, null, null, DbHelper.COL_ID + " ASC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                InfoModel phoneInfo = new InfoModel();
+                
+                phoneInfo.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.COL_ID)));
+
+                phoneInfo.setPhoneNumber(cursor.getString(cursor.getColumnIndex(DbHelper.COL_PHN_NU)));
+                phoneInfo.setOperatorName(cursor.getString(cursor.getColumnIndex(DbHelper.COL_OPERATOR)));
+                phones.add(phoneInfo);
+            } while (cursor.moveToNext());
+        }
+        return phones;
     }
 
 
