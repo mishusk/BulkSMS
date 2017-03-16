@@ -25,37 +25,19 @@ public class SMSBroadCastRcvr extends BroadcastReceiver {
     private int timeInterval = 4000;
     private Handler mHandler;
     int position = 0;
+    BroadcastReceiver sendBroadcastReceiver;
+    BroadcastReceiver deliveryBroadcastReciever;
 
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, "Service Started", Toast.LENGTH_SHORT).show();
-        infoModels = intent.getParcelableArrayListExtra(Constant.RECIVER_SMS_INFO_LIST);
 
         smsManager = SmsManager.getDefault();
         mHandler=new Handler();
         String message = null;
 
-        switch (getResultCode()) {
-            case Activity.RESULT_OK:
-                message = "Message sent!";
-                Toast.makeText(context, "Message Sent", Toast.LENGTH_SHORT).show();
-                break;
-            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                message = "Error. Message not sent.";
-                Toast.makeText(context, "Message Not Sent", Toast.LENGTH_SHORT).show();
-                break;
-            case SmsManager.RESULT_ERROR_NO_SERVICE:
-                message = "Error: No service.";
-                break;
-            case SmsManager.RESULT_ERROR_NULL_PDU:
-                message = "Error: Null PDU.";
-                break;
-            case SmsManager.RESULT_ERROR_RADIO_OFF:
-                message = "Error: Radio off.";
-                break;
-        }
         Log.e("sms", "onReceive: " + message);
         Toast.makeText(context, "show " + message, Toast.LENGTH_SHORT).show();
         startRepeatingTask();

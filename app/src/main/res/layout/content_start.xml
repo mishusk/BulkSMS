@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="bulksms.tdd.tddbulksms.activity.StartActivity"
+    tools:showIn="@layout/activity_start"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/btDeliverdList"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/delivered_list"
+        android:background="@drawable/google_button_selector"
+        android:textColor="@color/white"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btUndeliverdList"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/undelivered_list"
+        android:background="@drawable/google_button_selector"
+        android:textColor="@color/white"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btSettings"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/settings"
+        android:background="@drawable/google_button_selector"
+        android:textColor="@color/white"
+        android:layout_margin="5dp"/>
+
+
+
+</LinearLayout>

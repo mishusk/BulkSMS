@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <EditText
         android:id="@+id/et_text_body"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
+        android:gravity="top"
         android:hint="Type Message"
         android:layout_margin="5dp" />
 
@@ -16,14 +18,35 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
+        android:gravity="top"
         android:hint="Type Numbers with comma" />
+
+
+
+    <fr.ganfra.materialspinner.MaterialSpinner
+        android:id="@+id/spOperator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2sp"
+        android:layout_marginStart="2sp"
+        app:ms_alignLabels="false"
+        app:ms_arrowColor="@color/colorPrimary"
+        app:ms_arrowSize="16dp"
+        app:ms_baseColor="@color/colorPrimary"
+        app:ms_errorColor="@color/colorPrimaryDark"
+        app:ms_floatingLabelColor="@color/colorPrimary"
+        app:ms_floatingLabelText="To"
+        app:ms_highlightColor="@color/colorPrimary"
+        app:ms_hint="Operator"
+        app:ms_multiline="false" />
+
 
     <Button
         android:id="@+id/bt_send_sms"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_below="@id/et_text_body"
         android:text="Send Message" />
+
 
 </LinearLayout>

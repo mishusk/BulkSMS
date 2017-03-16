@@ -15,6 +15,7 @@ public class InfoModel implements Parcelable {
     private String operatorName;
     private String status;
     private String message;
+    private String sendTime;
 
     private InfoModel(Parcel in) {
         id = in.readInt();
@@ -31,10 +32,11 @@ public class InfoModel implements Parcelable {
         this.operatorName = operatorName;
     }
 
-    public InfoModel(String phoneNumber, String message, String status) {
+    public InfoModel(String phoneNumber, String message, String status, String sendTime) {
         this.phoneNumber = phoneNumber;
         this.message = message;
         this.status = status;
+        this.sendTime = sendTime;
     }
 
     public String getOperatorName() {
@@ -77,6 +79,14 @@ public class InfoModel implements Parcelable {
         this.message = message;
     }
 
+    public String getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
+    }
+
     public static final Creator<InfoModel> CREATOR = new Creator<InfoModel>() {
         @Override
         public InfoModel createFromParcel(Parcel in) {
@@ -100,5 +110,6 @@ public class InfoModel implements Parcelable {
         dest.writeString(phoneNumber);
         dest.writeString(operatorName);
         dest.writeString(message);
+        dest.writeString(sendTime);
     }
 }
