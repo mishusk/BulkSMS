@@ -39,6 +39,14 @@ public class SharedPref {
     private static final String KEY_START_ALARM_ID = "key_start_alarm_id";
     private static final String KEY_END_ALARM_ID = "key_end_alarm_id";
 
+    private static final String KEY_MESSAGE_1 = "key_message_1";
+    private static final String KEY_MESSAGE_2 = "key_message_2";
+    private static final String KEY_MESSAGE_3 = "key_message_3";
+    private static final String KEY_MESSAGE_4 = "key_message_4";
+    private static final String KEY_MESSAGE_5 = "key_message_5";
+
+    private static final String KEY_MESSAGE_REAMAINING = "key_message_remain";
+
 
     public SharedPref(Context context) {
         this._context = context;
@@ -47,10 +55,66 @@ public class SharedPref {
         editor = pref.edit();
     }
 
+    public void setMessageRemaing(int num){
+        editor.putInt(KEY_MESSAGE_REAMAINING, num);
+        editor.commit();
+    }
+
+    public int getMessageRemaining(){
+        return pref.getInt(KEY_MESSAGE_REAMAINING, 0);
+    }
+
+    public void setMessage1(String message1){
+        editor.putString(KEY_MESSAGE_1, message1);
+        editor.commit();
+    }
+
+    public String getMessage1(){
+        return pref.getString(KEY_MESSAGE_1,"");
+    }
+
+    public void setMessage2(String message2){
+        editor.putString(KEY_MESSAGE_2, message2);
+        editor.commit();
+    }
+
+    public String getMessage2(){
+        return pref.getString(KEY_MESSAGE_2,"");
+    }
+
+    public void setMessage3(String message3){
+        editor.putString(KEY_MESSAGE_3, message3);
+        editor.commit();
+    }
+
+    public String getMessage3(){
+        return pref.getString(KEY_MESSAGE_3,"");
+    }
+
+    public void setMessage4(String message4){
+        editor.putString(KEY_MESSAGE_4, message4);
+        editor.commit();
+    }
+
+    public String getMessage4(){
+        return pref.getString(KEY_MESSAGE_4,"");
+    }
+
+    public void setMessage5(String message5){
+        editor.putString(KEY_MESSAGE_5, message5);
+        editor.commit();
+    }
+
+    public String getMessage5(){
+        return pref.getString(KEY_MESSAGE_5,"");
+    }
+
     public void setMessage(String message){
         editor.putString(KEY_MESSAGE, message);
         editor.commit();
     }
+
+
 
     public String getMessage(){
         return pref.getString(KEY_MESSAGE,"");

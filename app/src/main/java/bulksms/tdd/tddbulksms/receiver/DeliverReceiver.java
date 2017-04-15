@@ -48,6 +48,7 @@ public class DeliverReceiver extends BroadcastReceiver {
                 sharedPref.setDeliveredCount(deliveredCount + 1);
                 database.setDeliveredPhone(infoModel);
                 database.updateDeliveryStatus(phoneNumber);
+                database.deletePhone(phoneNumber);
                 break;
             case Activity.RESULT_CANCELED:
                 Toast.makeText(context, "Sms Not Delivered",

@@ -2,7 +2,6 @@ package bulksms.tdd.tddbulksms.activity;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,24 +21,22 @@ import bulksms.tdd.tddbulksms.database.DbManager;
 import bulksms.tdd.tddbulksms.model.InfoModel;
 import bulksms.tdd.tddbulksms.sharedpref.SharedPref;
 
-public class UndeliveredList extends AppCompatActivity {
+public class AllUndeliveredList extends AppCompatActivity {
     RecyclerView rvUndeliverd;
     ArrayList<InfoModel> deleverdInfo = new ArrayList<>();
     DbManager database;
     DeliverAdapter deliverAdapter;
     SharedPref sharedPref;
     Button btUndelivredNumbers;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_undelivered_list);
+        setContentView(R.layout.activity_all_undelivered_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         initView();
         setAdapter();
-
     }
 
     private void setAdapter() {
@@ -52,7 +49,7 @@ public class UndeliveredList extends AppCompatActivity {
     private void initView() {
         sharedPref = new SharedPref(getApplicationContext());
         database = new DbManager(getApplicationContext());
-        deliverAdapter = new DeliverAdapter(database.getRecentUndeliveredPhn());
+        deliverAdapter = new DeliverAdapter(database.getUndeliveredPhn());
         rvUndeliverd = (RecyclerView) findViewById(R.id.rvUnliveredlist);
         btUndelivredNumbers = (Button) findViewById(R.id.btCopyNumbers);
 
@@ -63,11 +60,11 @@ public class UndeliveredList extends AppCompatActivity {
         btUndelivredNumbers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<InfoModel> undeliveredNumbers = database.getRecentUndeliveredPhn();
+                ArrayList<InfoModel> undeliveredNumbers = database.getUndeliveredPhn();
                 String numbers = "";
 
                 for (int i = 0; i < undeliveredNumbers.size(); i++){
-                   numbers  = numbers + undeliveredNumbers.get(i).getPhoneNumber() + ",";
+                    numbers  = numbers + undeliveredNumbers.get(i).getPhoneNumber() + ",";
                 }
 
                 copyText(numbers);

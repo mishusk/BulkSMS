@@ -1,6 +1,9 @@
 package bulksms.tdd.tddbulksms.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,18 +15,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import bulksms.tdd.tddbulksms.R;
 import bulksms.tdd.tddbulksms.constant.Constant;
+import bulksms.tdd.tddbulksms.helper.HelperMethods;
 import bulksms.tdd.tddbulksms.sharedpref.SharedPref;
 import bulksms.tdd.tddbulksms.utils.TimeDialogFragment;
 import bulksms.tdd.tddbulksms.utils.Util;
 
 public class Settings extends AppCompatActivity {
     Button btEndTime, btStartTime, btUpdateSettings;
+    TextView tvStartTime;
+    TextView tvEndTime;
+
     FloatingActionButton fab;
     private static int timeHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     private static int timeMinute = Calendar.getInstance().get(Calendar.MINUTE);
@@ -41,8 +50,21 @@ public class Settings extends AppCompatActivity {
 
 
         initView();
+        setButtonTime();
 
 
+    }
+
+    private void setButtonTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(sharedPref.getKeyStartServiceTime());
+        tvStartTime.setText("Start Time: " + formatter.format(calendar.getTime()));
+
+        calendar.setTimeInMillis(sharedPref.getKeyEndServiceTime());
+        tvEndTime.setText("End Time: " + formatter.format(calendar.getTime()));
     }
 
     private void initView() {
@@ -51,6 +73,8 @@ public class Settings extends AppCompatActivity {
         btStartTime = (Button) findViewById(R.id.btStartTime);
         btUpdateSettings = (Button) findViewById(R.id.btUpdateSettings);
         sharedPref = new SharedPref(getApplicationContext());
+        tvStartTime = (TextView) findViewById(R.id.tvStartTime);
+        tvEndTime = (TextView) findViewById(R.id.tvEndTime);
         initListener();
     }
 
@@ -58,8 +82,9 @@ public class Settings extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -81,9 +106,9 @@ public class Settings extends AppCompatActivity {
                         Calendar calendar = Calendar.getInstance();
 
                         //TODO: change add next day condition
-                        if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > timeHour) {
+                        /*if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > timeHour) {
                             calendar.add(Calendar.DAY_OF_YEAR, 1); // add, not set!
-                        }
+                        }*/
 
                         calendar.set(Calendar.HOUR_OF_DAY,timeHour);
                         calendar.set(Calendar.MINUTE,timeMinute);
@@ -122,9 +147,9 @@ public class Settings extends AppCompatActivity {
                         Calendar calendar = Calendar.getInstance();
 
                         //TODO: change add next day condition
-                        if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > timeHour) {
+                        /*if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > timeHour) {
                             calendar.add(Calendar.DAY_OF_YEAR, 1); // add, not set!
-                        }
+                        }*/
 
                         calendar.set(Calendar.HOUR_OF_DAY,timeHour);
                         calendar.set(Calendar.MINUTE,timeMinute);
@@ -150,8 +175,6 @@ public class Settings extends AppCompatActivity {
             public void onClick(View v) {
                 sharedPref.setKeyStartServiceTime(startTimeInMillis);
                 sharedPref.setKeyEndServiceTime(endTimeInMillis);
-                Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Settings Updated", Toast.LENGTH_SHORT).show();
             }
         });

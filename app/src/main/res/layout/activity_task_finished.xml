@@ -4,53 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="bulksms.tdd.tddbulksms.activity.TaskFinished"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
         <LinearLayout
-            android:id="@+id/activity_task_finished"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="wrap_content"
+            android:background="@color/background_color"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvSent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="SENT : 15"
-                android:textSize="18sp"
+            <LinearLayout
+                android:id="@+id/activity_task_finished"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal"
+                android:background="@android:color/white"
                 android:layout_margin="5dp"
-                android:textColor="@android:color/black"/>
+                android:weightSum="2">
 
-            <TextView
-                android:id="@+id/tvDeliverd"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                <TextView
+                    android:id="@+id/tvSent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="SENT : 15"
+                    android:textSize="18sp"
+                    android:layout_margin="5dp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvDeliverd"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="DELIVERED : 12"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="5dp" />
+
+            </LinearLayout>
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvDeliveredlist"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="DELIVERED : 12"
-                android:textColor="@android:color/black"
-                android:layout_margin="5dp" />
+                tools:listitem="@layout/recyclerview_deliveredlist">
+
+            </android.support.v7.widget.RecyclerView>
+
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvDeliveredlist"
+
+        <Button
+            android:id="@+id/btCopyDeliveredNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/recyclerview_deliveredlist">
-
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+            android:text="Copy Delivered Numbers"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
 
 </ScrollView>

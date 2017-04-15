@@ -8,4 +8,11 @@
     <string name="title_activity_settings">Settings</string>
     <string name="undelivered_list">Undelivered List</string>
     <string name="settings">Settings</string>
+    <string name="title_activity_save_messeges">SaveMesseges</string>
+    <string name="clear_database">Clear Database</string>
+    <string name="info">Info</string>
+    <string name="send_message">Send Message</string>
+    <string name="cancel_service">Cancel Service</string>
+    <string name="title_activity_all_undelivered_list">AllUndeliveredList</string>
+    <string name="title_activity_splash_screen">Bulk Sms</string>
 </resources>

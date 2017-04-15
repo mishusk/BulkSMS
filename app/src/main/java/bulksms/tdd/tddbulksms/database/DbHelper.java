@@ -22,6 +22,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_SMS_INFO = "tbl_sms_info";
     public static final String TABLE_DELIVERD_INFO = "tbl_deliverd_info";
     public static final String TABLE_UNDELIVERD_INFO = "tbl_undelived_info";
+    public static final String TABLE_RECENT_UNDELIVERD_INFO = "tbl_recent_undelived_info";
+    public static final String TABLE_MESSAGE = "tbl_message";
 
 
     public static final String COL_ID = "id";
@@ -62,6 +64,19 @@ public class DbHelper extends SQLiteOpenHelper {
             + COL_SMS + " text"
             + " ); ";
 
+
+    private final String CREATE_RECENT_UNDELIVERED_TABLE = "create table if not exists " + TABLE_RECENT_UNDELIVERD_INFO + " ( "
+            + COL_ID + " integer primary key autoincrement, "
+            + COL_PHN_NU + " text, "
+            + COL_OPERATOR + " text, "
+            + COL_SMS + " text"
+            + " ); ";
+
+    private final String CREATE_MESSAGE_TABLE = "create table if not exists " + TABLE_MESSAGE + " ( "
+            + COL_ID + " integer primary key autoincrement, "
+            + COL_SMS + " text"
+            + " ); ";
+
     public DbHelper(Context context) {
         super(context, DB_BULK_SMS, null, VERSION);
     }
@@ -72,6 +87,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_STATUS_DB);
         db.execSQL(CREATE_DELIVERED_TABLE);
         db.execSQL(CREATE_UNDELIVERED_TABLE);
+        db.execSQL(CREATE_MESSAGE_TABLE);
+        db.execSQL(CREATE_RECENT_UNDELIVERED_TABLE);
     }
 
     @Override
@@ -80,6 +97,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("drop table " + TABLE_SMS_INFO);
         db.execSQL("drop table " + CREATE_DELIVERED_TABLE);
         db.execSQL("drop table " + CREATE_UNDELIVERED_TABLE);
-
+        db.execSQL("drop table " + CREATE_MESSAGE_TABLE);
+        db.execSQL("drop table " + CREATE_RECENT_UNDELIVERED_TABLE);
     }
 }

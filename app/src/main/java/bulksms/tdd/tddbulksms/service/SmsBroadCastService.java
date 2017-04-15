@@ -1,13 +1,16 @@
 package bulksms.tdd.tddbulksms.service;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -16,6 +19,7 @@ import java.util.TimerTask;
 
 import bulksms.tdd.tddbulksms.constant.Constant;
 import bulksms.tdd.tddbulksms.database.DbManager;
+import bulksms.tdd.tddbulksms.helper.HelperMethods;
 import bulksms.tdd.tddbulksms.model.InfoModel;
 import bulksms.tdd.tddbulksms.receiver.DeliverReceiver;
 import bulksms.tdd.tddbulksms.receiver.SentReceiver;
@@ -30,7 +34,7 @@ import bulksms.tdd.tddbulksms.sharedpref.SharedPref;
 public class SmsBroadCastService extends Service{
     ArrayList<InfoModel> infoModels = new ArrayList<>();
     SmsManager smsManager;
-    private int timeInterval = 8000;
+    private int timeInterval = 15000;
     private Handler mHandler;
     DbManager dbManager;
     SharedPref sharedPref;
@@ -56,31 +60,45 @@ public class SmsBroadCastService extends Service{
         sendBroadcastReceiver = new SentReceiver();
         deliveryBroadcastReciever = new DeliverReceiver();
         taskFinishReceiver = new TaskFinishReceiver();
+        timer = new Timer();
     }
-
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        timer = new Timer();
-        Toast.makeText(getApplicationContext(), "Service Started", Toast.LENGTH_SHORT).show();
-        String operator = sharedPref.getOperator();
-
-        if (operator.equals(Constant.ALL_PHONE)){
-            infoModels = dbManager.getSmsInfo();
-        }else {
-            infoModels = dbManager.getPhnByOperatorSmSinfo(operator);
-        }
-
-        if (infoModels.size() > 0)
-            startService();
-
+        Log.i("arif","hello service");
+        new StartSmsService().execute();
         return START_STICKY;
     }
+    private class StartSmsService extends AsyncTask<String, String, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... urls) {
 
+            String operator = sharedPref.getOperator();
+            if (operator.equals(Constant.ALL_PHONE)){
+                infoModels = dbManager.getSmsInfo();
+            }else {
+                infoModels = dbManager.getPhnByOperatorSmSinfo(operator);
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isTaskFinished) {
+            Log.i("arif","info Model Size: " + infoModels.size());
+            if (infoModels.size() > 0){
+                Toast.makeText(getApplicationContext(), "Service Started", Toast.LENGTH_SHORT).show();
+                startService();
+            }
+
+        }
+    }
     public void sendSms(String smsBody, String phoneNumber) {
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
+
+        ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+        ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>();
 
         Intent intentSend = new Intent(SENT);
         intentSend.putExtra(Constant.POSITION, phoneNumber);
@@ -94,7 +112,13 @@ public class SmsBroadCastService extends Service{
         registerReceiver(sendBroadcastReceiver, new IntentFilter(SENT));
         registerReceiver(deliveryBroadcastReciever, new IntentFilter(DELIVERED));
         try{
-            smsManager.sendTextMessage(phoneNumber, null, smsBody, sentPI, deliveredPI);
+            ArrayList<String> parts = smsManager.divideMessage(smsBody);
+            int numParts = parts.size();
+            for (int i = 0; i < numParts; i++) {
+                sentIntents.add(sentPI);
+                deliveryIntents.add(deliveredPI);
+            }
+            smsManager.sendMultipartTextMessage(phoneNumber, null, parts, sentIntents, deliveryIntents);
         }catch (IllegalArgumentException e){
 
         }
@@ -141,8 +165,11 @@ public class SmsBroadCastService extends Service{
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
-        Toast.makeText(getApplicationContext(), "Service Deleted", Toast.LENGTH_SHORT).show();
         super.onDestroy();
+        Toast.makeText(getApplicationContext(), "Previous Service Deleted", Toast.LENGTH_SHORT).show();
+        if (timer != null){
+            timer.cancel();
+        }
         try {
 
             unregisterReceiver(sendBroadcastReceiver);

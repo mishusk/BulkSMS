@@ -8,14 +8,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateHidden">
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+        <activity android:name=".activity.MainActivity" />
 
         <service
             android:name=".service.SmsBroadCastService"
@@ -25,9 +23,8 @@
         <receiver android:name=".receiver.DeliverReceiver" />
         <receiver android:name=".receiver.SentReceiver" />
         <receiver android:name=".receiver.TaskFinishReceiver" />
-        <receiver android:name=".receiver.StartServiceReciver"/>
-        <receiver android:name=".receiver.EndServiceReceiver"/>
-
+        <receiver android:name=".receiver.StartServiceReciver" />
+        <receiver android:name=".receiver.EndServiceReceiver" />
 
         <activity android:name=".activity.TaskFinished" />
         <activity
@@ -37,17 +34,29 @@
         <activity
             android:name=".activity.StartActivity"
             android:label="@string/title_activity_start"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".activity.Settings"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SaveMesseges"
+            android:label="@string/title_activity_save_messeges"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AllUndeliveredList"
+            android:label="@string/title_activity_all_undelivered_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SplashScreen"
+            android:label="@string/title_activity_splash_screen"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.Settings"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

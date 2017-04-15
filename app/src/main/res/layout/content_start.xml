@@ -7,6 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="bulksms.tdd.tddbulksms.activity.StartActivity"
     tools:showIn="@layout/activity_start"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -17,6 +18,19 @@
         android:text="@string/delivered_list"
         android:background="@drawable/google_button_selector"
         android:textColor="@color/white"
+        android:drawableLeft="@drawable/menu_logo"
+        android:padding="5dp"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/btAllUndeliverdList"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="All Undelivered List"
+        android:background="@drawable/google_button_selector"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/menu_logo"
+        android:padding="5dp"
         android:layout_margin="5dp"/>
 
     <Button
@@ -26,6 +40,8 @@
         android:text="@string/undelivered_list"
         android:background="@drawable/google_button_selector"
         android:textColor="@color/white"
+        android:drawableLeft="@drawable/menu_logo"
+        android:padding="5dp"
         android:layout_margin="5dp"/>
 
     <Button
@@ -35,8 +51,19 @@
         android:text="@string/settings"
         android:background="@drawable/google_button_selector"
         android:textColor="@color/white"
+        android:drawableLeft="@drawable/menu_logo"
+        android:padding="5dp"
         android:layout_margin="5dp"/>
-
+    <Button
+        android:id="@+id/btClearDatabase"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="@string/clear_database"
+        android:background="@drawable/google_button_selector"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/menu_logo"
+        android:padding="5dp"
+        android:layout_margin="5dp"/>
 
 
 </LinearLayout>

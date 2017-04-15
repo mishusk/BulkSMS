@@ -21,6 +21,12 @@
         android:gravity="top"
         android:hint="Type Numbers with comma" />
 
+    <Button
+        android:id="@+id/btTextClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"/>
+
 
 
     <fr.ganfra.materialspinner.MaterialSpinner
@@ -41,12 +47,48 @@
         app:ms_multiline="false" />
 
 
-    <Button
-        android:id="@+id/bt_send_sms"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Send Message" />
+        android:orientation="horizontal"
+        android:weightSum="3"
+        style="?android:buttonBarStyle">
+        <Button
+            android:id="@+id/bt_show_info"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/info"
+            android:textColor="@color/white"
+            android:padding="2dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/google_button_selector"/>
+        <Button
+            android:id="@+id/bt_send_sms"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/send_message"
+            android:textColor="@color/white"
+            android:padding="2dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/google_button_selector"/>
+
+        <Button
+            android:id="@+id/bt_cancel_service"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/cancel_service"
+            android:textColor="@color/white"
+            android:padding="2dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/google_button_selector"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>
